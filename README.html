@@ -197,11 +197,14 @@ summary {
 <a href="mailto:mkkuan@dons.usfca.edu" class="email">mkkuan@dons.usfca.edu</a></p>
 <p>The aim of this project is to analyze the mobility data made available by Apple.</p>
 <p>That data is available from the following URL: <a href="https://covid19.apple.com/mobility" class="uri">https://covid19.apple.com/mobility</a></p>
+<p>It currently uses dplyr to work with some of the tabular data. Eventually, it will also include use of ggplot2 to visualize the dataset.</p>
 <div id="change-log" class="section level3">
 <h3>Change Log</h3>
 <ul>
-<li>2021-02-19: A new version of the data file was downloaded, and I also worked to refactor the code to be more general and to allow for any state to be subset from the larger file.</li>
-<li>2021-02-02: The data file was originally downloaded for analysis.</li>
+<li><p>2021-02-24: Added second script to use dplyr to tally up the count of cities and counties in a given state that have data from the different transportation types. Refactored the data so that the code is more general and any subsetted state data can be used to count the geo type by transportation type. Used <code>for</code> loops to make it so different states can be subsetted at the same time. Committed and pushed all files into repository.</p></li>
+<li><p>2021-02-22: Initialized a git repository in this project and commit all files into that repository.</p></li>
+<li><p>2021-02-19: A new version of the data file was downloaded, and I also worked to refactor the code to be more general and to allow for any state to be subset from the larger file.</p></li>
+<li><p>2021-02-02: The data file was originally downloaded for analysis.</p></li>
 </ul>
 </div>
 </div>
