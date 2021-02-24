@@ -12,7 +12,7 @@ It currently uses dplyr to work with some of the tabular data. Eventually, it wi
 
 ### Change Log
 
-* 2021-02-24: Added second script to use dplyr to tally up the count of cities and counties in a given state that have data from the different transportation types. Refactored the data so that the code is more general and any subsetted state data can be used to count the geo type by transportation type. Used `for` loops to make it so different states can be subsetted at the same time. Committed and pushed all files into repository.
+* 2021-02-24: Added second script to use dplyr to tally up the count of cities and counties in a given state that have data from the different transportation types. Refactored the data so that the code is more general and any subsetted state data can be used to count the geo type by transportation type. Used `for` loops to make it so different states can be subsetted at the same time. Deleted old output data. Committed and pushed all files into repository.
 
 * 2021-02-22: Initialized a git repository in this project and commit all files into that repository.
 
