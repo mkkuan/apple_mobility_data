@@ -19,8 +19,9 @@ subset_mobility_data_to_state <- function(input_file_name,
   state_data <- all_covid_data[all_covid_data$sub.region == state_to_subset, ]
 
   # check that the subsetted data actually has data in it
-  if (nrow(state_data) == 0)
+  if (nrow(state_data) == 0) {
     stop("ERROR: No rows matching given state name. Did you make a typo?")
+  }
 
   # save the state data to a new csv file in the output directory
   write.csv(state_data, file = paste0("output/",
