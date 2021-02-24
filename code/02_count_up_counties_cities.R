@@ -1,5 +1,5 @@
-# the goal of this script is to use the dplyr package to count up the 
-# number of cities and counties in a given state that have detailed 
+# the goal of this script is to use the dplyr package to count up the
+# number of cities and counties in a given state that have detailed
 # Apple mobility data available and then eventually to save it to a csv
 
 # Mikaela Kuan
@@ -19,10 +19,11 @@ input_file_name <- "output/applemobilitytrends-2021-02-17_California.csv"
 state_data <- read.csv(input_file_name)
 
 # starting off with dplyr chains
-count_of_cities_counties_by_transportation_type <- state_data %>% 
+count_cities_counties_by_type <- state_data %>%
   select(geo_type, region, transportation_type) %>%
   group_by(geo_type, transportation_type) %>%
   tally()
 
-write.csv(count_of_cities_counties_by_transportation_type,
+# write out the result of the dplyr chain
+write.csv(count_cities_counties_by_type,
           "output/california_cities_counties_counts.csv")
