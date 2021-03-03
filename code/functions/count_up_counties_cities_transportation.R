@@ -43,6 +43,7 @@ subset_data_count_city_county <- function(input_file_name, state_to_subset) {
 
   # create a csv file from the from the dplyr chain data
   write.csv(count_cities_counties_by_type, paste0("output/",
+                                                  "subsetted_states_count/",
                                                   tools::file_path_sans_ext(
                                                     basename(input_file_name)),
                                                   "_",

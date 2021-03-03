@@ -24,7 +24,7 @@ subset_mobility_data_to_state <- function(input_file_name,
   }
 
   # save the state data to a new csv file in the output directory
-  write.csv(state_data, file = paste0("output/",
+  write.csv(state_data, file = paste0("output/subsetted_states/",
                                       tools::file_path_sans_ext(
                                         basename(input_file_name)),
                                       "_",
