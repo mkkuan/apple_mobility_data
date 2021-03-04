@@ -1,13 +1,11 @@
-# the goal of this function is to use the dplyr package to count up the
-# number of cities and counties in a given state that have detailed
-# Apple mobility data available and then eventually to save it to a csv
+# the goal of this function is to use the dplyr and tidyverse
+# package to count up the number of cities and counties in a given
+# state that have detailed Apple mobility data available and
+# then eventually to save it to a csv
 
 # Mikaela Kuan
-# February 24, 2021
+# March 3, 2021
 # mkkuan@dons.usfca.edu
-
-# load the package "dplyr"
-library("dplyr")
 
 # we would like to get a count of the number of cities and the
 # number of counties in a given state and their tranportation type
@@ -16,18 +14,17 @@ library("dplyr")
 
 subset_data_count_city_county <- function(input_file_name, state_to_subset) {
   # load in the csv file to read
-  state_data <- read.csv(file = paste0("output/",
+  state_data <- readr::read_csv(file = paste0("output/subsetted_states_wide/",
                           tools::file_path_sans_ext(
                             basename(input_file_name)),
                           "_",
                           state_to_subset,
-                          ".csv"))
+                          "_wide.csv"))
 
   # using the "dplyr" package, we will pull data from the csv file
-  count_cities_counties_by_type <- state_data %>%
-
-    # this is to select the columns in the csv file
-    select(geo_type, region, transportation_type) %>%
+  # this is to select the columns in the csv file
+  count_cities_counties_by_type <- dplyr::select(state_data, geo_type, region,
+                                                 transportation_type) %>%
 
     # this is so we can have a count of the transportation type in the city
     # geotype and the county geotype
@@ -42,12 +39,11 @@ subset_data_count_city_county <- function(input_file_name, state_to_subset) {
   }
 
   # create a csv file from the from the dplyr chain data
-  write.csv(count_cities_counties_by_type, paste0("output/",
+  readr::write_csv(count_cities_counties_by_type, paste0("output/",
                                                   "subsetted_states_count/",
                                                   tools::file_path_sans_ext(
                                                     basename(input_file_name)),
                                                   "_",
                                                   state_to_subset,
-                                                  "_cities_counties_counts",
-                                                  ".csv"))
+                                                  "_tally.csv"))
 }
