@@ -14,6 +14,6 @@ for (state_to_subset in c("California", "Nevada", "Washington", "Oregon",
                           "Arizona")) {
   subset_data_count_city_county(input_file_name = paste0(
                                   "data/raw_data/",
-                                  "applemobilitytrends-2021-02-22.csv"),
+                                  "applemobilitytrends-2021-03-02.csv"),
                                 state_to_subset)
 }
