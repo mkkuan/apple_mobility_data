@@ -75,7 +75,6 @@ tallied_subset <- subset_data_count_city_county(
   state_to_subset = state_to_analyze)
 ```
 
-
 ## Figures
 
 ```{r plot-tallied}
