@@ -79,7 +79,7 @@ tallied_subset <- subset_data_count_city_county(
 ## Figures
 
 ```{r plot-tallied}
-# create a grouped barplot of the tallied data to include in the knitted 
+# create a grouped barplot of the tallied data to include in the knitted
 # document, and save that figure to the output/figures directory as a png
 tallied_plot <- ggplot(data = tallied_subset,
                        aes(x = geo_type,
