@@ -89,7 +89,9 @@ tallied_plot <- ggplot(data = tallied_subset,
                      state_to_analyze,
                      "with mobility data"),
        x = "Type of area",
-       y = "Number of areas")
+       y = "Number of areas") +
+  scale_fill_discrete(name = "Transportation Type",
+                      labels = c("Driving", "Transit", "Walking"))
 
 ggsave(plot = tallied_plot,
        filename = paste0("output/figures/",
@@ -122,9 +124,188 @@ ggsave(plot = timeseries_plot,
                          core_name,
                          "_",
                          state_no_spaces,
-                         "_timeseries_plot.png"))
+                         "_driving_timeseries_plot.png"))
 
 timeseries_plot
+```
+
+```{r plot-time-series-full}
+# produce a line plot with all three types of transportion with transportation
+# on the x-axis and the mean relative mobility on the y axis
+driving_timeseries_plot <- long_subset %>%
+  filter(transportation_type == "driving") %>%
+  group_by(date) %>%
+  summarize(mean_mobility_driving = mean(relative_mobility))
+transit_timeseries_plot <- long_subset %>%
+  filter(transportation_type == "transit") %>%
+  group_by(date) %>%
+  summarize(mean_mobility_transit = mean(relative_mobility))
+walking_timeseries_plot <- long_subset %>%
+  filter(transportation_type == "walking") %>%
+  group_by(date) %>%
+  summarize(mean_mobility_walking = mean(relative_mobility))
+
+# need to create some conditions because some states may not have all the data
+# that is need to produce the graph
+if (nrow(driving_timeseries_plot) == 0 & nrow(transit_timeseries_plot) == 0) {
+  all_timeseries_plot <- ggplot() +
+  geom_line(data = walking_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_walking, color = "Walking"), size = 0.71) +
+  scale_color_manual(values = c("#FFDB6D", "#FC4E07", "#00AFBB")) +
+  theme_linedraw() +
+  theme_light() +
+  labs(color = "Transportation Type",
+       title = paste("Statewide mean relative mobility levels in",
+                     state_to_analyze,
+                     "during COVID"),
+       x = "Date",
+       y = "Mean relative mobility")
+
+ ggsave(plot = all_timeseries_plot,
+       filename = paste0("output/figures/",
+                         core_name,
+                         "_",
+                         state_no_spaces,
+                         "_all_timeseries_plot.png"))
+} else if (nrow(driving_timeseries_plot) == 0 &
+           nrow(walking_timeseries_plot) == 0) {
+  all_timeseries_plot <- ggplot() +
+  geom_line(data = transit_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_transit, color = "Transit"), size = 0.71) +
+  scale_color_manual(values = c("#FFDB6D", "#FC4E07", "#00AFBB")) +
+  theme_linedraw() +
+  theme_light() +
+  labs(color = "Transportation Type",
+       title = paste("Statewide mean relative mobility levels in",
+                     state_to_analyze,
+                     "during COVID"),
+       x = "Date",
+       y = "Mean relative mobility")
+
+ ggsave(plot = all_timeseries_plot,
+       filename = paste0("output/figures/",
+                         core_name,
+                         "_",
+                         state_no_spaces,
+                         "_all_timeseries_plot.png"))
+} else if (nrow(transit_timeseries_plot) == 0 &
+           nrow(walking_timeseries_plot) == 0) {
+  all_timeseries_plot <- ggplot() +
+  geom_line(data = driving_timeseries_plot,
+            aes(x = lubridate::ymd(date), y = mean_mobility_driving,
+                color = "Driving"), size = 0.71) +
+  scale_color_manual(values = c("#FFDB6D", "#FC4E07", "#00AFBB")) +
+  theme_linedraw() +
+  theme_light() +
+  labs(color = "Transportation Type",
+       title = paste("Statewide mean relative mobility levels in",
+                     state_to_analyze,
+                     "during COVID"),
+       x = "Date",
+       y = "Mean relative mobility")
+
+ ggsave(plot = all_timeseries_plot,
+       filename = paste0("output/figures/",
+                         core_name,
+                         "_",
+                         state_no_spaces,
+                         "_all_timeseries_plot.png"))
+} else if (nrow(driving_timeseries_plot) == 0) {
+  all_timeseries_plot <- ggplot() +
+  geom_line(data = transit_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_transit, color = "Transit"), size = 0.71) +
+  geom_line(data = walking_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_walking, color = "Walking"), size = 0.71) +
+  scale_color_manual(values = c("#FFDB6D", "#FC4E07", "#00AFBB")) +
+  theme_linedraw() +
+  theme_light() +
+  labs(color = "Transportation Type",
+       title = paste("Statewide mean relative mobility levels in",
+                     state_to_analyze,
+                     "during COVID"),
+       x = "Date",
+       y = "Mean relative mobility")
+
+ ggsave(plot = all_timeseries_plot,
+       filename = paste0("output/figures/",
+                         core_name,
+                         "_",
+                         state_no_spaces,
+                         "_all_timeseries_plot.png"))
+} else if (nrow(transit_timeseries_plot) == 0) {
+  all_timeseries_plot <- ggplot() +
+  geom_line(data = driving_timeseries_plot,
+            aes(x = lubridate::ymd(date), y = mean_mobility_driving,
+                color = "Driving"), size = 0.71) +
+  geom_line(data = walking_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_walking, color = "Walking"), size = 0.71) +
+  scale_color_manual(values = c("#FFDB6D", "#FC4E07", "#00AFBB")) +
+  theme_linedraw() +
+  theme_light() +
+  labs(color = "Transportation Type",
+       title = paste("Statewide mean relative mobility levels in",
+                     state_to_analyze,
+                     "during COVID"),
+       x = "Date",
+       y = "Mean relative mobility")
+
+ ggsave(plot = all_timeseries_plot,
+       filename = paste0("output/figures/",
+                         core_name,
+                         "_",
+                         state_no_spaces,
+                         "_all_timeseries_plot.png"))
+} else if (nrow(walking_timeseries_plot) == 0) {
+  all_timeseries_plot <- ggplot() +
+  geom_line(data = driving_timeseries_plot,
+            aes(x = lubridate::ymd(date), y = mean_mobility_driving,
+                color = "Driving"), size = 0.71) +
+  geom_line(data = transit_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_transit, color = "Transit"), size = 0.71) +
+  scale_color_manual(values = c("#FFDB6D", "#FC4E07", "#00AFBB")) +
+  theme_linedraw() +
+  theme_light() +
+  labs(color = "Transportation Type",
+       title = paste("Statewide mean relative mobility levels in",
+                     state_to_analyze,
+                     "during COVID"),
+       x = "Date",
+       y = "Mean relative mobility")
+
+ ggsave(plot = all_timeseries_plot,
+       filename = paste0("output/figures/",
+                         core_name,
+                         "_",
+                         state_no_spaces,
+                         "_all_timeseries_plot.png"))
+} else {
+  all_timeseries_plot <- ggplot() +
+  geom_line(data = driving_timeseries_plot,
+            aes(x = lubridate::ymd(date), y = mean_mobility_driving,
+                color = "Driving"), size = 0.71) +
+  geom_line(data = transit_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_transit, color = "Transit"), size = 0.71) +
+  geom_line(data = walking_timeseries_plot, aes(x = lubridate::ymd(date),
+           y = mean_mobility_walking, color = "Walking"), size = 0.71) +
+  scale_color_manual(values = c("#FFDB6D", "#FC4E07", "#00AFBB")) +
+  theme_linedraw() +
+  theme_light() +
+  labs(color = "Transportation Type",
+       title = paste("Statewide mean relative mobility levels in",
+                     state_to_analyze,
+                     "during COVID"),
+       x = "Date",
+       y = "Mean relative mobility")
+
+ ggsave(plot = all_timeseries_plot,
+       filename = paste0("output/figures/",
+                         core_name,
+                         "_",
+                         state_no_spaces,
+                         "_all_timeseries_plot.png"))
+}
+
+all_timeseries_plot
 ```
 
 # Session Info
