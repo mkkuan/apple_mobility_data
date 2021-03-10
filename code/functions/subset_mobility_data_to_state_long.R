@@ -7,6 +7,8 @@
 
 # create a function
 subset_data_wide_to_long <- function(input_file_name, state_to_subset) {
+  # make sure the states with spaces in them are replaced with a "_" instead
+  state_no_spaces <- gsub(state_to_subset, pattern = " ", replacement = "_")
 
   # read in the wide format subsetted data using readr
   wide_state_data <- readr::read_csv(file = paste0("output/",
@@ -14,7 +16,7 @@ subset_data_wide_to_long <- function(input_file_name, state_to_subset) {
                                                    tools::file_path_sans_ext(
                                                      basename(input_file_name)),
                                                    "_",
-                                                   state_to_subset,
+                                                   state_no_spaces,
                                                    "_wide.csv"))
 
   # use tidyr to edit the column name using "XYYYY.MM.DD" wide format
@@ -36,6 +38,8 @@ subset_data_wide_to_long <- function(input_file_name, state_to_subset) {
                                                   tools::file_path_sans_ext(
                                                     basename(input_file_name)),
                                                   "_",
-                                                  state_to_subset,
+                                                  state_no_spaces,
                                                   "_long.csv"))
+
+  return(long_state_data)
 }

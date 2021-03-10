@@ -11,6 +11,9 @@
 # that is subsetted
 subset_mobility_data_to_state <- function(input_file_name,
                                           state_to_subset) {
+  # make sure the states with spaces in them are replaced with a "_" instead
+  state_no_spaces <- gsub(state_to_subset, pattern = " ", replacement = "_")
+
   # read in the complete csv file
   all_covid_data <- readr::read_csv(input_file_name)
 
@@ -33,6 +36,8 @@ subset_mobility_data_to_state <- function(input_file_name,
                                       tools::file_path_sans_ext(
                                         basename(input_file_name)),
                                       "_",
-                                      state_to_subset,
+                                      state_no_spaces,
                                       "_wide.csv"))
+
+  return(state_data)
 }

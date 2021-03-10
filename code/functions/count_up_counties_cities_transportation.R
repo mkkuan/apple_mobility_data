@@ -13,12 +13,15 @@
 # namely the state csv files that were already subsetted
 
 subset_data_count_city_county <- function(input_file_name, state_to_subset) {
+  # make sure the states with spaces in them are replaced with a "_" instead
+  state_no_spaces <- gsub(state_to_subset, pattern = " ", replacement = "_")
+
   # load in the csv file to read
   state_data <- readr::read_csv(file = paste0("output/subsetted_states_wide/",
                           tools::file_path_sans_ext(
                             basename(input_file_name)),
                           "_",
-                          state_to_subset,
+                          state_no_spaces,
                           "_wide.csv"))
 
   # using the "dplyr" package, we will pull data from the csv file
@@ -44,6 +47,8 @@ subset_data_count_city_county <- function(input_file_name, state_to_subset) {
                                                   tools::file_path_sans_ext(
                                                     basename(input_file_name)),
                                                   "_",
-                                                  state_to_subset,
+                                                  state_no_spaces,
                                                   "_tally.csv"))
+
+  return(count_cities_counties_by_type)
 }
