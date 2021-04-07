@@ -27,3 +27,4 @@ done
 
 # this is to tally up the number of SARS-CoV-2 sequences in the dataset from each country and sort this output 
 # from largest to smallest
+zcat $1 | grep ">" | cut -f 5 -d "|" | sort | uniq -c | sort -rn 
