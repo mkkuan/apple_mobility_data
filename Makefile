@@ -24,3 +24,4 @@ clean:
 	rm -fv output/*/*.csv
 	rm -fv output/*/*.png
 
+.PHONY: all clean
