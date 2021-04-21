@@ -4,6 +4,10 @@ author: "Mikaela Kuan"
 date: "3/4/2021"
 output: html_document
 bibliography: references.bib
+params:
+  state: "California"
+  data: "data/raw_data/applemobilitytrends-2021-03-02.csv"
+  seqdata: "output/sequence_summary.txt"
 ---
 
 ```{r setup, include=FALSE}
@@ -14,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE, message = TRUE)
 
 ```{r set-parameters}
 # set the state to work with
-state_to_analyze <- "California"
+state_to_analyze <- params$state
 
 # sanitizing the state name for output files
 state_no_spaces <- gsub(state_to_analyze,
@@ -22,7 +26,7 @@ state_no_spaces <- gsub(state_to_analyze,
                         replacement = "_")
 
 # set the name of the global data file to use
-global_file_to_process <- "data/raw_data/applemobilitytrends-2021-03-02.csv"
+global_file_to_process <- params$data
 
 # extract core name for output file naming use
 core_name <- tools::file_path_sans_ext(basename(global_file_to_process))
@@ -306,6 +310,32 @@ if (nrow(driving_timeseries_plot) == 0 & nrow(transit_timeseries_plot) == 0) {
 }
 
 all_timeseries_plot
+```
+
+```{r plot-sequence-data, fig.height=12}
+# read in the count of the sequences by country (2 columns)
+seqs_by_country <- readr::read_table(params$seqdata,
+                                     col_names = c("count",
+                                                   "country"))
+
+# check that we have the right number of columns
+stopifnot(ncol(seqs_by_country) == 2)
+
+# make a sidewways barplot, log scale x axis, with countries on the y
+# and the counts of sequences in each on the x, sorted by count
+seq_count_plot <- ggplot(data = seqs_by_country,
+                         aes(x = count,
+                             y = reorder(country, count))) +
+  geom_col() +
+  scale_x_log10() +
+  labs(title = "Count of SARS-CoV-2 sequences per country",
+       x = "Count of Sequences",
+       y = "Country Name")
+
+ggsave(plot = seq_count_plot,
+       filename = "output/figures/seq_count_plot.png")
+
+seq_count_plot
 ```
 
 # Session Info

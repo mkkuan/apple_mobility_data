@@ -11,6 +11,8 @@ https://covid19.apple.com/mobility
 It currently uses dplyr to work with some of the tabular data. Eventually, it will also include use of ggplot2 to visualize the dataset.
 
 ### Change Log
+* 2021-03-29: Parameterize Rmd and add bash script to drive knitting
+
 * 2021-03-09: Add a timeseries plot for all types of transportation in `Analysis.Rmd`. Adding conditions for varying datasets.
 
 * 2021-03-04: Add Rmd to drive entire analysis
